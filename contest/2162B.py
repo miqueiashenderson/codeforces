@@ -1,22 +1,32 @@
-tst = int(input())
+casos_de_teste = int(input())
 
-for i in range(tst):
-
+for _ in range(casos_de_teste):
     n = int(input())
-    s = list(input())
-    x = ""
-    p = ""
-    cont = 0
+    s = input()
 
-    for i in range(len(s) -1, -1, -1):
-        x += str(s[i])
-    print(x)
+    solucao_encontrada = False
+    for i in range(1 << n):
+        p_caracteres = []
+        p_indices = []
+        x_caracteres = []
 
-    for i in range(n):
-        if x[i] != s[i]:
-            p += str(i)
-            cont += 1
-        
-    print(cont)
-    print(p)
+        for j in range(n):
+            if (i >> j) & 1:
+                p_caracteres.append(s[j])
+                p_indices.append(j + 1)
+            else:
+                x_caracteres.append(s[j])
 
+        if p_caracteres != sorted(p_caracteres):
+            continue
+
+        if x_caracteres != x_caracteres[::-1]:
+            continue
+
+        print(len(p_indices))
+        print(*p_indices)
+        solucao_encontrada = True
+        break
+
+    if not solucao_encontrada:
+        print(-1)
